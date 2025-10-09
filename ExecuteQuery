@@ -1,0 +1,25 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class PreparedStatement {
+	public static void main(String[] args) throws Exception {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		String url="jdbc:oracle:thin:@localhost:1521:orcl";
+
+		 String username="scott";
+		 String password="tiger";
+		 //String selctquery="select *from employee";
+		 String insertquery="INSERT INTO employee (emp_id, emp_name, salary) VALUES (6, 'Charvi',10000)";
+		 Connection con=DriverManager.getConnection(url,username,password);
+	     Statement s=con.createStatement();
+   ResultSet rs=s.executeQuery(insertquery);
+//	     ResultSet rs=s.executeQuery(selctquery);
+	     
+	     System.out.println(rs);
+
+}
+}
