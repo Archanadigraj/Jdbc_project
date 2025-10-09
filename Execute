@@ -1,0 +1,33 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Execute {
+	public static void main(String[] args) throws Exception {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		String url="jdbc:oracle:thin:@localhost:1521:orcl";
+
+		 String username="scott";
+		 String password="tiger";
+		 String query="select ename,sal from emp";
+	     Connection con=DriverManager.getConnection(url,username,password);
+	     Statement s=con.createStatement();
+	   
+	     boolean rs=s.execute(query);
+	     System.out.println(rs);
+	     if(rs) {
+	    	ResultSet set= s.getResultSet();
+	    	while(set.next()) {
+	    		System.out.println(set.getString(1));
+	    	//System.out.println(set.getString("ename"));
+	    	System.out.println(set.getInt("sal"));
+	     }
+	     }
+
+	}
+
+}
+Execute
