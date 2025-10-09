@@ -1,0 +1,28 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
+//class is myconnection in that  getconnection method which is used to connect the database  instead of writting again and agian we can use this
+public class MyConnection {
+	static Connection con=null;
+	public static Connection getconnection() throws Exception {
+		String url="jdbc:oracle:thin:@localhost:1521:orcl";
+		 String username="scott";
+		 String password="tiger";
+
+		   try {
+			   Class.forName("oracle.jdbc.driver.OracleDriver");
+		 con = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return con;
+	}
+
+}
+
+
