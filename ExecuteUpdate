@@ -1,0 +1,34 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Execute_Update {
+		public static void main(String[] args) throws Exception {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			String url="jdbc:oracle:thin:@localhost:1521:orcl";
+
+			 String username="scott";
+			 String password="tiger";
+			 String query = "INSERT INTO emp (empno, ename, job, sal) VALUES (4, 'Charvi', 'DEVELOPER', 10000)";
+             Connection con=DriverManager.getConnection(url,username,password);
+		     Statement s=con.createStatement();
+		     int a= s.executeUpdate(query);
+		     System.out.println(a+" row is inserted");
+		     
+		     String selectQuery = "SELECT empno, ename, job, sal FROM emp";
+		        ResultSet rs = s.executeQuery(selectQuery);
+		        while (rs.next()) {
+		            System.out.println("Emp No : " + rs.getInt("empno"));
+		            System.out.println("Name   : " + rs.getString("ename"));
+		            System.out.println("Job    : " + rs.getString("job"));
+		            System.out.println("Salary : " + rs.getDouble("sal"));
+		        }
+		        rs.close();
+		        s.close();
+		        con.close();
+	}
+
+}
