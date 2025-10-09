@@ -1,0 +1,41 @@
+package Jdbc;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class EmployeeTable {
+	public static void main(String[] args) throws Exception {
+	 Connection con=MyConnection.getconnection();
+	 Statement st=con.createStatement();
+	 BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	 while (true) {
+		 System.out.println("employee number");
+		 int eno=Integer.parseInt(br.readLine());
+		 System.out.println("employee name");
+		 String ename=br.readLine();
+		 System.out.println("enter salary");
+		 float esal=Float.parseFloat(br.readLine());
+		 System.out.println("Enter Dept ID:");
+		 int deptId = Integer.parseInt(br.readLine());
+		 System.out.println("Enter Manager ID:");
+		 int managerId = Integer.parseInt(br.readLine());
+		 
+		 String query = "INSERT INTO employee VALUES("+ eno + ", '" + ename + "', " + esal + ", " + deptId + ", " + managerId + ")";
+         st.executeUpdate(query);
+         
+		 System.out.println("employee inserted succesfully");
+		 System.out.println("one more employee [yes/no");
+
+		 String option=br.readLine();
+		 if (option.equalsIgnoreCase("no")) {
+             System.out.println(" completed.");
+             break;
+		 
+	 }
+}
+
+	}
+	}
