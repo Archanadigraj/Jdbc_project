@@ -1,0 +1,21 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class AlterTable {
+	public static void main(String[] args) throws Exception {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		String url="jdbc:oracle:thin:@localhost:1521:orcl";
+		 String username="scott";
+		 String password="tiger";
+		  Connection con=DriverManager.getConnection(url,username,password);
+		  String sql="alter table employee add address varchar(200)";
+		  Statement st=con.createStatement();
+		  st.executeUpdate(sql);
+		  System.out.println("column address  added successfully to employee table");
+	
+}
+
+}
