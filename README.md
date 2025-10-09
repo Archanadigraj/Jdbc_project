@@ -1,79 +1,140 @@
-# Jdbc_project
-This is a Java JDBC project demonstrating database connectivity, CRUD operations, and data management using Java.
+1. What is JDBC?
 
-Features
+JDBC (Java Database Connectivity) is a Java API that allows Java programs to connect and interact with databases.
+It provides a standard interface to execute SQL queries, retrieve results, and update the database.
 
-Connects Java application to a relational database (MySQL, PostgreSQL, or Oracle).
+Part of Java Standard Edition (JSE).
 
-Performs CRUD operations:
+Works with any database that has a JDBC driver.
 
-Create: Insert new records
+Key Point: JDBC is platform-independent — your Java code stays the same even if the database changes (just need the appropriate driver).
 
-Read: Fetch records
+2. Features of JDBC
 
-Update: Modify records
+Database independent: Works with multiple databases (Oracle, MySQL, SQL Server, etc.)
 
-Delete: Remove records
+Standard API: Same set of classes and interfaces for all databases.
 
-Uses PreparedStatement to prevent SQL injection.
+Supports SQL execution: Can execute SELECT, INSERT, UPDATE, DELETE commands.
 
-Handles exceptions and errors gracefully.
+Supports transaction management: Commit, rollback, and savepoints.
 
-Project Structure
-JdbcProject/
-│
-├── src/                     # Java source files
-│   ├── com/jdbcproject/
-│   │   ├── DatabaseConnection.java
-│   │   ├── Main.java
-│   │   ├── EmployeeDAO.java
-│   │   └── Employee.java
-│
-├── lib/                     # JDBC Driver Jar (e.g., mysql-connector-java-x.x.x.jar)
-│
-├── SQL/                     # Database schema and sample data
-│   └── schema.sql
-│
-└── README.md
+Supports stored procedures and advanced database features.
 
-Setup Instructions
-1. Database Setup
+3. JDBC Architecture
 
-Install MySQL (or other database).
+JDBC uses a 4-layer architecture:
 
-Create a database:
+A. JDBC API Layer
 
-CREATE DATABASE jdbc_project;
+Used by Java applications to interact with the database.
 
+Main interfaces: Connection, Statement, PreparedStatement, ResultSet, etc.
 
-Run the SQL script in SQL/schema.sql to create tables and insert sample data.
+B. JDBC Driver Manager
 
-2. Configure Project
+Loads database drivers and establishes the connection.
 
-Add JDBC driver jar to your project classpath (lib/mysql-connector-java-x.x.x.jar).
+Manages different types of JDBC drivers.
 
-Update DatabaseConnection.java with your database details:
+C. JDBC Driver Layer
 
-String url = "jdbc:mysql://localhost:3306/jdbc_project";
-String user = "root";
-String password = "your_password";
+Converts JDBC calls to database-specific calls.
 
-3. Compile and Run
-cd "C:\Users\Archana A\OneDrive\Desktop\JdbcProject\src"
-javac -cp .;..\lib\mysql-connector-java-x.x.x.jar com/jdbcproject/*.java
-java -cp .;..\lib\mysql-connector-java-x.x.x.jar com.jdbcproject.Main
+Types of drivers:
+
+Type 1: JDBC-ODBC bridge (obsolete)
+
+Type 2: Native API driver
+
+Type 3: Network protocol driver
+
+Type 4: Pure Java driver (most popular, e.g., ojdbc8.jar for Oracle)
+
+D. Database
+
+The actual relational database (Oracle, MySQL, PostgreSQL, etc.) that stores and manages data.
+
+4. Steps to Connect and Use JDBC
+
+Load the JDBC Driver
+
+Class.forName("oracle.jdbc.driver.OracleDriver");
 
 
-For Linux/Mac, replace ; with : in classpath.
+Establish Connection
 
-Run Main.java.
+Connection con = DriverManager.getConnection(
+    "jdbc:oracle:thin:@localhost:1521:orcl", "username", "password");
 
-Follow the console menu to:
 
-Add new employees.
+Create Statement
 
-View existing employees.
+Statement st = con.createStatement();
 
-Update employee details.
 
-Delete employees.
+Execute SQL Queries
+
+For SELECT:
+
+ResultSet rs = st.executeQuery("SELECT * FROM employee");
+
+
+For INSERT/UPDATE/DELETE:
+
+st.executeUpdate("INSERT INTO employee VALUES (101, 'Alice', 50000)");
+
+
+Process ResultSet (for SELECT queries)
+
+while(rs.next()) {
+    int id = rs.getInt("emp_id");
+    String name = rs.getString("emp_name");
+    System.out.println(id + " " + name);
+}
+
+
+Close Resources
+
+rs.close();
+st.close();
+con.close();
+
+5. Important JDBC Interfaces and Classes
+Interface/Class	Purpose
+Connection	Represents a connection to the database.
+Statement	Executes static SQL queries.
+PreparedStatement	Executes parameterized SQL queries (safer & faster).
+CallableStatement	Executes stored procedures.
+ResultSet	Stores the result of SELECT queries.
+DriverManager	Manages JDBC drivers and connections.
+SQLException	Handles database errors.
+6. Advantages of JDBC
+
+Platform-independent access to databases.
+
+Supports multiple SQL operations.
+
+Can work with any relational database with a driver.
+
+Supports dynamic queries with PreparedStatement.
+
+Supports transactions (commit, rollback).
+
+7. Limitations of JDBC
+
+Requires SQL knowledge to use effectively.
+
+Statement objects are prone to SQL injection (use PreparedStatement to avoid).
+
+Manual resource management is needed (close() methods).
+
+8. Best Practices
+
+Always use PreparedStatement for dynamic queries.
+
+Always close Connection, Statement, ResultSet to prevent memory leaks.
+
+Handle SQLException properly with try-catch blocks.
+
+Use connection pooling in large applications for efficiency.
